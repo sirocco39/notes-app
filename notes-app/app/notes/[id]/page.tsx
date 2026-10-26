@@ -1,21 +1,33 @@
+// app/notes/[id]/page.tsx
+import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { notes } from "@/lib/fakeNotes";
+import { prisma } from "../../../lib/prisma";
 
-export default async function NoteDetailPage({
-    params,
+export default function NoteDetailPage({
+  params,
 }: {
-    params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
-    const { id } = await params;
-    const note = notes.find((n) => n.id === id);
-    if (!note) notFound;
+  return (
+    <main>
+      <Link href="/notes">← Back</Link>
+      <Suspense fallback={<p>Loading…</p>}>
+        <NoteContent params={params} />
+      </Suspense>
+    </main>
+  );
+}
 
-    return (
-        <main>
-            <Link href={"/notes"}>← Back</Link>
-            <h1>{note?.title}</h1>
-            <p>{note?.content}</p>
-        </main>
-    )
+async function NoteContent({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const note = await prisma.note.findUnique({ where: { id } });
+  if (!note) notFound();
+
+  return (
+    <>
+      <h1>{note.title}</h1>
+      <p>{note.content}</p>
+    </>
+  );
 }
