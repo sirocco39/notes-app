@@ -29,6 +29,7 @@ async function NoteContent({ params }: { params: Promise<{ id: string }> }) {
     <>
       <h1>{note.title}</h1>
       <p>{note.content}</p>
+      <Link href={`/notes/${note.id}/edit`}>Edit</Link>
       <DeleteButton id={note.id} />
     </>
   );

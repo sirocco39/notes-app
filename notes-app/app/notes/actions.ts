@@ -26,3 +26,17 @@ export async function deleteNote(formData: FormData) {
   revalidatePath("/notes");
   redirect("/notes");
 }
+
+export async function updateNote(formData: FormData) {
+  const id = String(formData.get("id") ?? "");
+  const title = String(formData.get("title") ?? "").trim();
+  const content = String(formData.get("content") ?? "");
+
+  // Temporary guard; Zod replaces this
+  if (!id || !title) return;
+
+  await prisma.note.update({ where: { id }, data: { title, content } });
+  revalidatePath("/notes");
+  revalidatePath(`/notes/${id}`);
+  redirect(`/notes/${id}`);
+}
