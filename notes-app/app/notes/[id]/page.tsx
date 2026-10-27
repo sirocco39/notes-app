@@ -1,5 +1,6 @@
 // app/notes/[id]/page.tsx
 import { Suspense } from "react";
+import DeleteButton from "@/components/DeleteButton";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "../../../lib/prisma";
@@ -28,6 +29,7 @@ async function NoteContent({ params }: { params: Promise<{ id: string }> }) {
     <>
       <h1>{note.title}</h1>
       <p>{note.content}</p>
+      <DeleteButton id={note.id} />
     </>
   );
 }

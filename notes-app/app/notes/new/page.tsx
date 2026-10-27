@@ -1,5 +1,5 @@
 // app/notes/new/page.tsx
-import { createNote } from "./actions";
+import { createNote } from "../actions";
 
 export default function NewNotePage() {
   return (

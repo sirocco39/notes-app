@@ -3,7 +3,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "../../lib/prisma";
 
 export async function createNote(formData: FormData) {
   const title = String(formData.get("title") ?? "").trim();
@@ -15,4 +15,14 @@ export async function createNote(formData: FormData) {
   const note = await prisma.note.create({ data: { title, content } });
   revalidatePath("/notes");
   redirect(`/notes/${note.id}`);
+}
+
+export async function deleteNote(formData: FormData) {
+  const id = String(formData.get("id") ?? "");
+  if (!id) return;
+
+  // deleteMany doesn't throw if the note is already gone (e.g. double click)
+  await prisma.note.deleteMany({ where: { id } });
+  revalidatePath("/notes");
+  redirect("/notes");
 }
