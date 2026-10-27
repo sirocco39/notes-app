@@ -25,6 +25,7 @@ export default function NotesPage() {
   return (
     <main>
       <h1>Notes</h1>
+      <Link href="/notes/new">New note</Link>
       <Suspense fallback={<p>Loading…</p>}>
         <NoteList />
       </Suspense>
