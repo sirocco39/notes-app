@@ -33,4 +33,4 @@ async function NoteContent({ params }: { params: Promise<{ id: string }> }) {
       <DeleteButton id={note.id} />
     </>
   );
-}
+} 
