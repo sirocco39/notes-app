@@ -11,8 +11,8 @@ export default function EditNotePage({
 }) {
   return (
     <main>
-      <h1>Edit note</h1>
-      <Suspense fallback={<p>Loading…</p>}>
+      <h1 className="mb-6 text-2xl font-bold tracking-tight">Edit note</h1>
+      <Suspense fallback={<p className="text-stone-500">Loading…</p>}>
         <EditForm params={params} />
       </Suspense>
     </main>
